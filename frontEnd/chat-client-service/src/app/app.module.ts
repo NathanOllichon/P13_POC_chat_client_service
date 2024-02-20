@@ -4,9 +4,9 @@ import { MatButtonModule } from '@angular/material/button'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChoiceCharacterComponent } from './choice-character/choice-character.component';
-import { UserChatComponent } from './user-chat/user-chat.component';
-import { ClientServiceChatComponent } from './client-service-chat/client-service-chat.component';
+import { ChoiceCharacterComponent } from './component/choice-character/choice-character.component';
+import { UserChatComponent } from './component/user-chat/user-chat.component';
+import { ClientServiceChatComponent } from './component/client-service-chat/client-service-chat.component';
 
 @NgModule({
   declarations: [
