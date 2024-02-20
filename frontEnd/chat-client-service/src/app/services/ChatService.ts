@@ -17,20 +17,19 @@ export class ChatService {
   }
 
   initConnenctionSocket() {
-    const url = '//localhost:3000/chat-socket';
-    const socket = new SockJS(url);
-    this.stompClient = Stomp.over(socket)
+    const url = '//localhost:4200/chat-socket';
+    // const socket = new SockJS(url);
+    // this.stompClient = Stomp.over(socket)
   }
 
   joinRoom(roomId: string) {
     this.stompClient.connect({}, ()=>{
-      this.stompClient.subscribe(`/topic/${roomId}`, (messages: any) => {
-        const messageContent = JSON.parse(messages.body);
+      this.stompClient.subscribe(`/topic/${roomId}`, (messages: ChatMessage) => {
+        const messageContent = JSON.parse(messages.message);
         const currentMessage = this.messageSubject.getValue();
         currentMessage.push(messageContent);
 
         this.messageSubject.next(currentMessage);
-
       })
     })
   }
