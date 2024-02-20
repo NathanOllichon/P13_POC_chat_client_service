@@ -13,7 +13,7 @@ import com.chat.kafka.ChatMessage;
 public class WebSocketController {
 	
 	@Autowired
-	private KafkaTemplate<Object, Object> template;
+	private KafkaTemplate<String, ChatMessage> template;
 	
     @MessageMapping("/chat/{roomId}")
     @SendTo("/topic/{roomId}")
