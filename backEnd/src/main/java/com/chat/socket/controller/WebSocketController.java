@@ -16,18 +16,32 @@ public class WebSocketController {
 	private KafkaTemplate<String, ChatMessage> template;
 	
     @MessageMapping("/chat/{roomId}")
-    @SendTo("/topic/{roomId}")
-    public ChatMessage chat(@DestinationVariable String roomId, ChatMessage message) {
+    public void chat(@DestinationVariable String roomId, ChatMessage message) {
     	
         System.out.println(message);
-        
-        //return new ChatMessage(message.getMessage(), message.getProducer(), message.getConsumer());
-        
+                
         this.template.send("first_topic", new ChatMessage(message.getMessage(), message.getProducer(), message.getConsumer()));
 		
         
-        return message;
-
-        
+        //return message;
+        //not return, but use a fonction with     @SendTo("/topic/{roomId}")
+        //sendToRoom(roomId, )
     }
+    
+    //on a aucun autre moyen de passer la roomID ? 
+    //ça passera pas sans le @DestinationVariable qui viens de la route de messageMapping
+    @SendTo("/topic/{roomId}")
+    public ChatMessage sendToRoom(String roomId) {
+    	
+    	//find message from kafka consumer, filter
+    	//kafkaMessage = new chatMessage;
+        //System.out.println(message);
+        
+        //return new ChatMessage(kafkaMessage.getMessage(), kafkaMessage.getProducer(), kafkaMessage.getConsumer());
+        		
+        //return message;
+		return null;
+    }
+
+    
 }
