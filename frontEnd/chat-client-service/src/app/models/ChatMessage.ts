@@ -1,4 +1,5 @@
 export interface ChatMessage {
     message: string;
-    user: string;
+    producer: string;
+    consumer: string;
 }
