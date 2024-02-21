@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ChatMessage } from '../../models/ChatMessage';
-import { ChatService } from '../../services/ChatService';
+import { ChatMessage } from 'src/app/models/ChatMessage';
+import { ChatService } from 'src/app/services/ChatService';
 import { messageList } from 'src/app/models/messageList';
-
 
 @Component({
   selector: 'app-user-chat',
@@ -14,15 +12,12 @@ export class UserChatComponent implements OnInit {
 
   messageInput: string = '';
   userId: string="00000046";
-  consumerId: string="";
+  consumerId: string="00000001";
   messageList: messageList[] = [];
 
-  constructor(private chatService: ChatService,
-    private route: ActivatedRoute
-    ){}
+  constructor(private chatService: ChatService){}
 
   ngOnInit(): void {
-    this.userId = this.route.snapshot.params["userId"];
     this.chatService.joinRoom(this.userId);
     this.lisenerMessage();
   }
@@ -39,7 +34,11 @@ export class UserChatComponent implements OnInit {
 
   lisenerMessage() {
     this.chatService.getMessageSubject().subscribe((messages: any) => {
-      this.messageList = messages.map((item: ChatMessage)=> ({
+
+      this.messageList = messages.map((item: any)=> (
+        
+        console.log("Listen message item => " + item),
+        {
         ...item,
         message_side: item.producer === this.userId ? 'sender': 'receiver'
       }))

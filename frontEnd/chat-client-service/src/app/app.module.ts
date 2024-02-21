@@ -7,6 +7,7 @@ import { ChoiceCharacterComponent } from './component/choice-character/choice-ch
 import { UserChatComponent } from './component/user-chat/user-chat.component';
 import { ClientServiceChatComponent } from './component/client-service-chat/client-service-chat.component';
 import { FormsModule } from '@angular/forms';
+// import { StompService } from '@stomp/ng2-stompjs';
 
 @NgModule({
   declarations: [

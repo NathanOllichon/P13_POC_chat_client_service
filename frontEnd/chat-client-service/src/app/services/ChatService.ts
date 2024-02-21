@@ -1,31 +1,36 @@
 import { Injectable } from '@angular/core';
 import { Stomp } from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
+
 import { ChatMessage } from './../models/ChatMessage';
 import { BehaviorSubject } from 'rxjs';
+
+declare var SockJS: any;
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
-  private stompClient: any
-  private messageSubject: BehaviorSubject<ChatMessage[]> = new BehaviorSubject<ChatMessage[]>([]);
+  private stompClient: any;
+  private messageSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
   constructor() { 
-    this.initConnenctionSocket();
-  }
-
-  initConnenctionSocket() {
     const url = '//localhost:3001/chat-socket';
-    // const socket = new SockJS(url);
-    // this.stompClient = Stomp.over(socket)
+
+    this.stompClient = Stomp.over(function(){
+      return new SockJS(url);
+    });
   }
 
   joinRoom(roomId: string) {
     this.stompClient.connect({}, ()=>{
-      this.stompClient.subscribe(`/topic/${roomId}`, (messages: ChatMessage) => {
-        const messageContent = JSON.parse(messages.message);
+      console.log("JoinRoom: " + roomId);
+      this.stompClient.subscribe(`/topic/${roomId}`, (messages: any) => {
+
+        console.log("received message => " + messages.body)
+        const messageContent = JSON.parse(messages.body);
+
         const currentMessage = this.messageSubject.getValue();
         currentMessage.push(messageContent);
 
