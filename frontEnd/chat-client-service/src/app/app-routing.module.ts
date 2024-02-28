@@ -8,7 +8,6 @@ const routes: Routes = [
 
   { path: 'choiceCharacter', component: ChoiceCharacterComponent},
   { path: 'userChat1', component: UserChatComponent},
-  { path: 'userChat2', component: UserChatComponent},
   { path: 'clientServiceChat', component: ClientServiceChatComponent},
   { path: '**', redirectTo: 'choiceCharacter'}
 

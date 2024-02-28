@@ -16,10 +16,6 @@ export class ChoiceCharacterComponent {
     this.router.navigate(['userChat1'])
   }
 
-  routeToUserChat2() {
-    this.router.navigate(['userChat2'])
-  }
-
   routeToClientServiceChat() {
     this.router.navigate(['clientServiceChat'])
   }
