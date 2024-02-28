@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
 import com.chat.kafka.ChatMessage;
@@ -18,29 +17,8 @@ public class WebSocketController {
 	@MessageMapping("/chat/{roomId}")
 	public void chat(@DestinationVariable String roomId, ChatMessage message) {
 
-		System.out.println(" in sender @MessageMapping: " + message.toString());
+		template.send("first_topic", new ChatMessage(message.getMessage(), message.getProducer(), message.getReceiver()));
 
-		template.send("first_topic", new ChatMessage(message.getMessage(), "FakeProducer", "FakeConsumer"));
-
-		// asynchr so subscribe to observer ?
-
-	}
-
-	// on a aucun autre moyen de passer la roomID ?
-	// ça passera pas sans le @DestinationVariable qui viens de la route de
-	// messageMapping
-	@SendTo("/topic/{roomId}")
-	public ChatMessage sendToRoom(String roomId) {
-
-		// find message from kafka consumer, filter
-		// kafkaMessage = new chatMessage;
-		// System.out.println(message);
-
-		// return new ChatMessage(kafkaMessage.getMessage(), kafkaMessage.getProducer(),
-		// kafkaMessage.getConsumer());
-
-		// return message;
-		return null;
 	}
 
 }

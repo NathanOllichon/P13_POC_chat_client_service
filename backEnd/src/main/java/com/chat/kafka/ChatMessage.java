@@ -15,5 +15,5 @@ public class ChatMessage {
 	
 	private String message;
     private String producer;
-    private String consumer;
+    private String receiver;
 }
