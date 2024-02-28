@@ -13,7 +13,7 @@ declare var SockJS: any;
 export class ChatService {
 
   private stompClient: any;
-  private messageSubject: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  private messageSubject: BehaviorSubject<String[]> = new BehaviorSubject<String[]>([]);
 
   constructor() { 
     const url = '//localhost:3001/chat-socket';
@@ -25,10 +25,9 @@ export class ChatService {
 
   joinRoom(roomId: string) {
     this.stompClient.connect({}, ()=>{
-      console.log("JoinRoom: " + roomId);
       this.stompClient.subscribe(`/topic/${roomId}`, (messages: any) => {
 
-        console.log("received message => " + messages.body)
+        console.log("messages.body => " + messages.body);
         const messageContent = JSON.parse(messages.body);
 
         const currentMessage = this.messageSubject.getValue();

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatMessage } from 'src/app/models/ChatMessage';
 import { ChatService } from 'src/app/services/ChatService';
-import { messageList } from 'src/app/models/messageList';
 
 @Component({
   selector: 'app-user-chat',
@@ -11,9 +10,9 @@ import { messageList } from 'src/app/models/messageList';
 export class UserChatComponent implements OnInit {
 
   messageInput: string = '';
-  userId: string="00000046";
-  consumerId: string="00000001";
-  messageList: messageList[] = [];
+  userId:     string="00000046";
+  receiverId: string="00000001";
+  messageList: any[] = [];
 
   constructor(private chatService: ChatService){}
 
@@ -26,23 +25,21 @@ export class UserChatComponent implements OnInit {
     const chatMessage = {
       message: this.messageInput,
       producer: this.userId,
-      consumer: this.consumerId
+      receiver: this.receiverId
     }as ChatMessage
     this.chatService.sendMessage(this.userId, chatMessage);
     this.messageInput = '';
   }
 
   lisenerMessage() {
-    this.chatService.getMessageSubject().subscribe((messages: any) => {
+    this.chatService.getMessageSubject().subscribe((messagesJSON: any[]) => {
 
-      this.messageList = messages.map((item: any)=> (
-        
-        console.log("Listen message item => " + item),
+      this.messageList = messagesJSON.map((item: ChatMessage)=> (
         {
         ...item,
         message_side: item.producer === this.userId ? 'sender': 'receiver'
-      }))
+        })
+      )
     });
   }
-
 }
